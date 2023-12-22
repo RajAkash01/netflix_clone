@@ -30,7 +30,7 @@ const MainScreen = () => {
       <Row title="Comedy Movies" requests={request.fetchComedyMovies} />
       <Row title="Mystery Movies" requests={request.fetchMysteryMovies} />
       <Row title="Romantic Movies" requests={request.fetchRomanticMovies} />
-      <Row title="Documentaries" requests={request.fetchDocumentaries} />
+      <Row title="Documentaries" requests={request.fetchDocumentaries} islast={true} />
     </div>
   );
 };

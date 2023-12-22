@@ -2,14 +2,14 @@ import React from 'react'
 import {AutoSizer,Grid} from 'react-virtualized'
 
 
-function List_Optimized({data,renderItem,itemwidth=180,itemheight=250}) {
+function List_Optimized({data,renderItem,itemwidth=180,itemheight=250,islast}) {
     
   return (
-    <div style={{width:'100%',height:'300px',marginBottom:'2rem'}}>
+    <div style={{width:'100%',height:'400px',marginBottom:islast?'':'-70px'}}>
         <AutoSizer >
             {({width,height})=>(
                 <Grid
-                 containerStyle={{ marginTop:'30px',overflow:'visible'}}
+                 containerStyle={{ marginLeft:'20px',marginTop:'40px',overflow:'visible'}}
                 className='scrollbar-hide ' 
                 width={width} 
                 height={height} 

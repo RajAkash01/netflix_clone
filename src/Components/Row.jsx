@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { result as Fetchit } from '../Axios';
 import List_Optimized from './List_Optimized';
 
-function Row({ title, requests, isLarge = false }) {
+function Row({ title, requests, isLarge = false,islast=false }) {
   const [Movie, setMovie] = useState([]);
   const [loading, setloading] = useState(true);
   const navigate = useNavigate();
@@ -26,13 +26,13 @@ function Row({ title, requests, isLarge = false }) {
       <div
         className={` flex  p-[20px] scrollbar-hide`}
       >
-        <List_Optimized itemwidth={170} itemheight={290} data={Movie} renderItem={({columnIndex, key, rowIndex, style})=>{
+        <List_Optimized islast={islast} itemwidth={170} itemheight={isLarge?300:250}  data={Movie} renderItem={({columnIndex, key, rowIndex, style})=>{
               const item=Movie[columnIndex]
           return(
               
             item?.backdrop_path && (
             <div
-              key={item}
+              key={key}
               onClick={() => navigate(`/Main/${item?.id}`, { state: item })}
               className={`relative rounded-lg   object-cover object-center  transition transform duration-300 hover:scale-125 hover:z-10  text-transparent hover:text-[#e6e6e6]  cursor-pointer`}
               style={{...style,
@@ -43,21 +43,17 @@ function Row({ title, requests, isLarge = false }) {
                 }")`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                left:columnIndex * (170 + 10), // to create a space between every item that is columnindex * (itemWidth + gap),
+                left:columnIndex * (170 + 20), // to create a space between every item that is columnindex * (itemWidth + gap),
                 top:0
               }}
             >
               <div  >
                 <p
-                  className={`absolute ${
-                    isLarge !== true
-                      ? 'bottom-0  pb-[0.2rem]  '
-                      : 'bottom-0  pb-[1.5rem] pt-[1rem] '
-                  }  bg-gradient-to-b w-full from-transparent via-[rgba(37,37,37,0.60)] to-[rgba(37,37,37,0.70)]
+                  className={` absolute bottom-0 bg-gradient-to-b w-full from-transparent via-[rgba(37,37,37,0.60)] to-[rgba(37,37,37,0.70)]
                       `}
                   // style={{ textShadow: `1px 1px 2px black` }}
                 >
-                  {item?.name || item?.original_title}
+                  <b className='ml-2 mb-2' >{item?.name || item?.original_title}</b>
                 </p>
               </div>
             </div>

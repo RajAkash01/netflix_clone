@@ -43,7 +43,7 @@ function DetailPage() {
   }, []);
   const GetMovieId = ({ title, year }) => {
     movieTrailer(title, { year: year, id: true }).then(
-      (response) => (setMovieId(response), console.log(response, year))
+      (response) => (setMovieId(response))
     );
     const options = {
       method: 'GET',
@@ -51,7 +51,7 @@ function DetailPage() {
       params: {
         q: `${
           item?.name || item?.original_name || item?.original_title
-        }netflix movie trailer`,
+        } netflix movie trailer`,
       },
       headers: {
         'X-RapidAPI-Key': '8dd1d501d1msh6dc0f56cbcf018bp1e52f4jsnd45650cf0b19',
@@ -62,9 +62,10 @@ function DetailPage() {
       .request(options)
       .then(function (response) {
         const urlparams = new URLSearchParams(
-          new URL(response?.data?.items[0]?.url).search
+          new URL(response?.data?.items?.[0]?.url).search
         );
         const url = urlparams.get('v');
+        console.log("url here "+ JSON.stringify(response?.data?.items?.[0]?.url))
         setMovieId(url);
       })
       .catch(function (error) {
