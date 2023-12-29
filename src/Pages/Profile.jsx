@@ -37,7 +37,7 @@ function Profile() {
   const Subscribetoplan = ({ data }) => {
     if (userdata!==null||User.length!==0) {
       setload(true);
-      Planurl.post('/create-checkout-session', { item: data })
+      Planurl.post('https://netflix-clone-backend-pxle.onrender.com/create-checkout-session', { item: data })
         .then(
           (it) => (
             window.localStorage.setItem('user', JSON.stringify([userdata])),

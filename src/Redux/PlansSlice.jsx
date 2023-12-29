@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const fetchplan = createAsyncThunk('get/fetchplan', () => {
-  return Planurl.get('/plan').then((res) => res);
+  return Planurl.get('https://netflix-clone-backend-pxle.onrender.com/plan').then((res) => res);
 });
 
 const planSlice = createSlice({
