@@ -3,7 +3,7 @@ name: Deploy Netflix Clone
 on:
   push:
     branches:
-      - master  # Matches your current branch name
+      - master  # Runs every time you push to master
 
 permissions:
   contents: read
@@ -20,14 +20,15 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 24 # Updated to match Vercel/Modern standards
+          node-version: 24
+          cache: 'yarn' # This speeds up future builds by caching dependencies
 
       - name: Install & Build
         run: |
-          npm install
-          npm run build
+          yarn install
+          yarn build
         env:
-          # This flag tells React to ignore warnings during the build
+          # Prevents warnings (PascalCase, unused vars) from failing the build
           CI: false 
           REACT_APP_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
 
@@ -37,7 +38,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Your logs showed 'react-scripts build', so the folder is 'build'
+          # react-scripts creates a 'build' folder
           path: './build' 
 
       - name: Deploy to GitHub Pages
