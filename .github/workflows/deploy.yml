@@ -1,0 +1,43 @@
+name: Deploy Netflix Clone
+
+on:
+  push:
+    branches:
+      - master  # Runs every time you push to main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/checkout@v4
+        with:
+          node-version: 18
+
+      - name: Install & Build
+        run: |
+          npm install
+          npm run build
+        env:
+          # Add your TMDB/Firebase API keys here as Secrets
+          REACT_APP_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist' # Use 'build' if using Create React App
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
