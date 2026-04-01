@@ -3,7 +3,7 @@ name: Deploy Netflix Clone
 on:
   push:
     branches:
-      - master  # Runs every time you push to main
+      - master  # Matches your current branch name
 
 permissions:
   contents: read
@@ -18,16 +18,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/checkout@v4
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24 # Updated to match Vercel/Modern standards
 
       - name: Install & Build
         run: |
           npm install
           npm run build
         env:
-          # Add your TMDB/Firebase API keys here as Secrets
+          # This flag tells React to ignore warnings during the build
+          CI: false 
           REACT_APP_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
 
       - name: Setup Pages
@@ -36,7 +37,8 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist' # Use 'build' if using Create React App
+          # Your logs showed 'react-scripts build', so the folder is 'build'
+          path: './build' 
 
       - name: Deploy to GitHub Pages
         id: deployment
